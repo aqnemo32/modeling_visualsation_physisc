@@ -32,6 +32,7 @@ for i in range(lx):
         r=random.random()
         if(r<0.5): spin[i,j]=-1
         if(r>=0.5): spin[i,j]=1
+# need to add the Energy Calculation
 
 fig = plt.figure()
 im=plt.imshow(spin, animated=True)
@@ -48,7 +49,9 @@ for n in range(nstep):
             spin_new=-spin[itrial,jtrial]
 
 #compute delta E eg via function (account for periodic BC)
-
+# delta E is the difference in energy -> ∂E = E_new - E_original
+# if ∂E <0 then we keep the new conformation as it minimises the energy
+# If ∂E>0 then the fip happens with a prob of e^(-∂E/k_b t)
 #perform metropolis test
                 
 #occasionally plot or update measurements, eg every 10 sweeps
