@@ -27,8 +27,9 @@ kT=float(sys.argv[2])
 spin=np.zeros((lx,ly),dtype=float)
 
 #initialise spins randomly
-
+# print('i')
 for i in range(lx):
+    print(f"j{i}")
     for j in range(ly):
         r=random.random()
         if(r<0.5): spin[i,j]=-1
@@ -41,6 +42,8 @@ im=plt.imshow(spin, animated=True)
 #update loop here - for Glauber dynamics
 
 for n in range(nstep):
+    # print(f"k{n}")
+    spin_new = spin.copy()
     # this goes through all of the points in the matrix
     for i in range(lx):
         for j in range(ly):
@@ -49,19 +52,14 @@ for n in range(nstep):
             itrial=np.random.randint(0,lx)
             jtrial=np.random.randint(0,ly)
             # this should flip one spin in the matrix, i think
-            spin_new=-spin[itrial,jtrial]
+            # i would like to do smth like spin_new = spin and then spin_new[itrial,jtrial] = - spin[itrial, jtrial]
+            spin_new[itrial,jtrial] = -spin[itrial,jtrial]
 
             # do the checking of the new spin and wether half or more the nearest neighbours are the same
 
-            delta_E = E_spin(spin_new, lx, ly) - E_spin(spin, lx, ly)
+            spin = metropolis(spin, spin_new, lx, ly, itrial, jtrial, kT)
 
-            if delta_E <= 0: spin = spin_new
 
-            else:
-                p = np.exp(-delta_E/kT)
-                r = random.random()
-                if r <= p: spin = spin_new
-                else: spin = spin
 
 # check wether the new spin has at least half of the neighbours alike. 
 # if it does no need to calc ∂E as it will for sure be < 0 so new spin matrix can be adopted
