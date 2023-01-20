@@ -46,19 +46,18 @@ for n in range(nstep):
     # print(f"k{n}")
     spin_new = spin.copy()
     # this goes through all of the points in the matrix
-    for i in range(lx):
-        for j in range(ly):
+
 
 #select spin randomly
-            itrial=np.random.randint(0,lx)
-            jtrial=np.random.randint(0,ly)
-            # this should flip one spin in the matrix, i think
-            # i would like to do smth like spin_new = spin and then spin_new[itrial,jtrial] = - spin[itrial, jtrial]
-            spin_new[itrial,jtrial] = -spin[itrial,jtrial]
+    itrial=np.random.randint(0,lx)
+    jtrial=np.random.randint(0,ly)
+    # this should flip one spin in the matrix, i think
+    # i would like to do smth like spin_new = spin and then spin_new[itrial,jtrial] = - spin[itrial, jtrial]
+    spin_new[itrial,jtrial] = -spin[itrial,jtrial]
 
-            # do the checking of the new spin and wether half or more the nearest neighbours are the same
+    # do the checking of the new spin and wether half or more the nearest neighbours are the same
 
-            spin = metropolis(spin, spin_new, lx, ly, itrial, jtrial, kT)
+    spin = metropolis(spin, spin_new, lx, ly, itrial, jtrial, kT)
 
 
 
