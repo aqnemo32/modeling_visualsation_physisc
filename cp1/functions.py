@@ -1,40 +1,88 @@
-import numpy as np
+import matplotlib
+matplotlib.use('TKAgg') #what does this do
+
+import sys
+import math #do i need this
 import random
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from functions import *
 
-# def E_spin(spin, lx , ly):
-#     '''spin: numpy array
-#              spin matrix
+def kawazaki(spin, lx, ly, kT):
+    '''
+    '''
 
-#        lx, ly: Interger
-#                Dimensions of the spin array 
-#     '''
-#     spin_x = spin.copy()
+    for i in range(lx):
+        for j in range(ly):
 
-   
-#     E = 0
-#     for i in range(lx):
-#         for j in range(ly):
-#             E += -spin_x[i, j]*(spin_x[np.mod(i-1,lx),j] + spin_x[np.mod(i+1, lx),j] + spin_x[i,np.mod(j-1,ly)] + spin_x[i,np.mod(j+1,ly)])
-#             spin_x[i, j] = 0
+            #select spin randomly
+            itrial_1=np.random.randint(0,lx)
+            jtrial_1=np.random.randint(0,ly)
+            spin_1 = spin[itrial_1,jtrial_1]
 
-#     return E
+            itrial_2=np.random.randint(0,lx)
+            jtrial_2=np.random.randint(0,ly)
+            spin_2 = spin[itrial_2,jtrial_2]
 
-# i am sure that there is a way to reduce the number of calculations, but this works for now
+            if spin_1 != spin_2:
 
-# def metropolis(spin, spin_new, lx, ly, itrial, jtrial, kT):
+                delta_E_2 = -2*spin_2 * (
+                    spin[np.mod(itrial_1-1,lx),jtrial_1] +\
+                                spin[np.mod(itrial_1+1, lx),jtrial_1] +\
+                                                spin[itrial_1,np.mod(jtrial_1-1,ly)] +\
+                                                                    spin[itrial_1,np.mod(jtrial_1+1,ly)])
+                delta_E_1 = -2*spin_1 * (
+                    spin[np.mod(itrial_2-1,lx),jtrial_2] +\
+                                spin[np.mod(itrial_2+1, lx),jtrial_2] +\
+                                                spin[itrial_2,np.mod(jtrial_2-1,ly)] +\
+                                                                    spin[itrial_2,np.mod(jtrial_2+1,ly)])
+                
+                delta_E = delta_E_1 + delta_E_2
 
-#     delta_E = -2*spin_new * (
-#         spin[np.mod(itrial-1,lx),jtrial] +\
-#                          spin[np.mod(itrial+1, lx),jtrial] +\
-#                                           spin[itrial,np.mod(jtrial-1,ly)] +\
-#                                                              spin[itrial,np.mod(jtrial+1,ly)])
+                if delta_E <= 0:
+                    spin[itrial_1, jtrial_1] = spin_2
+                    spin[itrial_2, jtrial_2] = spin_1
+
+                else:
+                    p = np.exp(-delta_E/kT)
+                    r = random.random()
+                    if r <= p:
+                        spin[itrial_1, jtrial_1] = spin_2
+                        spin[itrial_2, jtrial_2] = spin_1
+    # check wether the new spin has at least half of the neighbours alike. 
+    # if it does no need to calc ∂E as it will for sure be < 0 so new spin matrix can be adopted
+
+    # if it does not then you do the metropolis test
 
 
-#     else :
-#         p = np.exp(-delta_E/kT)
-#         r = random.random()
-#         if r <= p: 
-#             spin[itrial, jtrial] = spin_new 
-#             return spin
-#         else: 
-#             return spin
+            
+    return spin
+
+
+def glauber(spin, lx, ly, kT):
+    '''
+    '''
+
+    for i in range(lx):
+        for j in range(ly):
+            #select spin randomly
+            itrial=np.random.randint(0,lx)
+            jtrial=np.random.randint(0,ly)
+            
+            spin_new = -spin[itrial,jtrial]
+
+            delta_E = -2*spin_new * (
+            spin[np.mod(itrial-1,lx),jtrial] +\
+                                spin[np.mod(itrial+1, lx),jtrial] +\
+                                                spin[itrial,np.mod(jtrial-1,ly)] +\
+                                                                    spin[itrial,np.mod(jtrial+1,ly)])
+
+            if delta_E <= 0:
+                spin[itrial, jtrial] = spin_new
+            else:
+                p = np.exp(-delta_E/kT)
+                r = random.random()
+                if r <= p: 
+                    spin[itrial, jtrial] = spin_new 
+    return spin
