@@ -27,6 +27,9 @@ kT=float(sys.argv[2])
 
 spin=np.zeros((lx,ly),dtype=float)
 
+# create an array to store all the spin data
+super_spin = np.zeros((lx,ly, nstep - 100), dtype = float)
+
 #initialise spins randomly
 # print('i')
 for i in range(lx):
@@ -48,6 +51,7 @@ for n in range(nstep):
     elif sys.argv[3] == 'G' or sys.argv[3] == 'g':
         spin = glauber(spin, lx, ly, kT)
 
+
     if(n%10==0): 
     #       update measurements
     #       dump output
@@ -61,6 +65,8 @@ for n in range(nstep):
         im=plt.imshow(spin, animated=True)
         plt.draw()
         plt.pause(0.0001)
+
+np.save(f"spin_data/spin_data_{lx}_{kT}_{sys.argv[3]}.npy", super_spin)
 # import subprocess
 
 # msg =  "Welcome,\nThis little interface will allow you to simulate an Ising Model.\nYou may choose between a Kawazaki Algorithm or a Glauber Algorithm\nTo select Kawazaki press k, to select Glauber press g: "
