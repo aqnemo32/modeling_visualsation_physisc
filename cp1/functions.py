@@ -1,13 +1,10 @@
 import matplotlib
 matplotlib.use('TKAgg') #what does this do
 
-import sys
-import math #do i need this
+
 import random
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from functions import *
+
 
 def kawazaki(spin, lx, ly, kT):
     '''

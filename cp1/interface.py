@@ -3,7 +3,6 @@ import matplotlib
 matplotlib.use('TKAgg') #what does this do
 
 import sys
-import math #do i need this
 import random
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,12 +22,13 @@ if(len(sys.argv) != 4):
 
 lx=int(sys.argv[1]) 
 ly=lx 
-kT=float(sys.argv[2]) 
+kT=float(sys.argv[2])/10 
 
 spin=np.zeros((lx,ly),dtype=float)
 
 # create an array to store all the spin data
-super_spin = np.zeros((lx,ly, nstep - 100), dtype = float)
+super_spin = np.zeros((int((nstep-100)/10),lx, ly), dtype = float)
+print(f"{super_spin.shape = }")
 
 #initialise spins randomly
 # print('i')
@@ -40,8 +40,8 @@ for i in range(lx):
         if(r>=0.5): spin[i,j]=1
 # need to add the Energy Calculation
 
-fig = plt.figure()
-im=plt.imshow(spin, animated=True)
+# fig = plt.figure()
+# im=plt.imshow(spin, animated=True)
 
 for n in range(nstep):
 
@@ -52,21 +52,28 @@ for n in range(nstep):
         spin = glauber(spin, lx, ly, kT)
 
 
-    if(n%10==0): 
-    #       update measurements
-    #       dump output
-        f=open('spins.dat','w')
-        for i in range(lx):
-            for j in range(ly):
-                f.write('%d %d %lf\n'%(i,j,spin[i,j]))
-        f.close()
-    #       show animation
-        plt.cla()
-        im=plt.imshow(spin, animated=True)
-        plt.draw()
-        plt.pause(0.0001)
 
-np.save(f"spin_data/spin_data_{lx}_{kT}_{sys.argv[3]}.npy", super_spin)
+    if(n%10==0):
+        # print(f"{n}")
+        if n > 100:
+            super_spin[int(n/10) - 10, :, :] = spin
+
+    # #       update measurements
+    # #       dump output
+    #     f=open('spins.dat','w')
+    #     for i in range(lx):
+    #         for j in range(ly):
+    #             f.write('%d %d %lf\n'%(i,j,spin[i,j]))
+    #     f.close()
+    # #       show animation
+    #     plt.cla()
+    #     im=plt.imshow(spin, animated=True)
+    #     plt.draw()
+    #     plt.pause(0.0001)
+
+np.save(f"spin_data/spin_data_{lx}_{kT}_{sys.argv[3]}", super_spin)
+
+print(f"Done {kT}")
 # import subprocess
 
 # msg =  "Welcome,\nThis little interface will allow you to simulate an Ising Model.\nYou may choose between a Kawazaki Algorithm or a Glauber Algorithm\nTo select Kawazaki press k, to select Glauber press g: "
