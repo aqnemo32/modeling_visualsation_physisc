@@ -58,6 +58,7 @@ def kawazaki(spin, lx, ly, kT):
 
 
 def glauber(spin, lx, ly, kT):
+
     '''
     '''
 
@@ -83,3 +84,17 @@ def glauber(spin, lx, ly, kT):
                 if r <= p: 
                     spin[itrial, jtrial] = spin_new 
     return spin
+
+
+def susceptibility(super_spin, lx, kT):
+    '''
+    super_spin: numpy array
+                Spin arrays for an Ising model dimension = (numstep-100/10, lx, ly)
+    '''
+    M = np.sum(super_spin, axis = (1,2))
+
+    M_avg = np.average(M)
+
+    M_sq_avg = np.average(np.square(M))
+
+    return 1/(lx*kT) * (M_sq_avg - np.square(M_avg))
