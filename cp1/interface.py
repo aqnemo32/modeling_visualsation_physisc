@@ -30,10 +30,12 @@ spin=np.zeros((lx,ly),dtype=float)
 
 # create an array to store all the spin data
 super_spin = np.zeros((int((nstep-100)/10),lx, ly), dtype = float)
-print(f"{super_spin.shape = }")
+
 
 #initialise spins randomly
 # print('i')
+# i want to write something that looks into spin data folder to check if a 
+# lower temp spin file is available without having to load it. dont kow ho explore directory in python
 for i in range(lx):
     # print(f"j{i}")
     for j in range(ly):
