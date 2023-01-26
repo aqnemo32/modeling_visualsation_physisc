@@ -74,6 +74,7 @@ for n in range(nstep):
     #     plt.pause(0.0001)
 a = time.time()
 np.save(f"spin_data/spin_data_{lx}_{kT}_{sys.argv[3]}", super_spin)
+np.save(f"spin_data/eq_spin_{lx}_{kT}_{sys.argv[3]}", super_spin[-1,:,:])
 b = time.time()
 print(f"Saving time = {b-a}")
 end = time.time()
