@@ -97,4 +97,4 @@ def susceptibility(super_spin, lx, kT):
 
     M_sq_avg = np.average(np.square(M))
 
-    return 1/(lx*kT) * (M_sq_avg - np.square(M_avg))
+    return 1/((lx**2)*kT) * (M_sq_avg - np.square(M_avg))

@@ -43,6 +43,7 @@ im=plt.imshow(spin, animated=True)
 #update loop here - for Glauber dynamics
 
 for n in range(nstep):
+    #  why do we need these two loops ??
     for i in range(lx):
         for j in range(ly):
             #select spin randomly
@@ -50,7 +51,9 @@ for n in range(nstep):
             jtrial=np.random.randint(0,ly)
             
             spin_new = -spin[itrial,jtrial]
-
+            # could you speed it up by slicing the section around the new spin (3 by 3) and use that to do the ∂E calc
+            
+            
             delta_E = -2*spin_new * (
             spin[np.mod(itrial-1,lx),jtrial] +\
                                 spin[np.mod(itrial+1, lx),jtrial] +\
@@ -84,6 +87,7 @@ for n in range(nstep):
           
 #occasionally plot or update measurements, eg every 10 sweeps
     if(n%10==0): 
+        print(n)
     #       update measurements
     #       dump output
         f=open('spins.dat','w')

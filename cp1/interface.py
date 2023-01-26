@@ -7,8 +7,10 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from functions import *
+import time
+from functions import kawazaki, glauber
 
+start = time.time()
 nstep = 10000
 J = 1.0
 
@@ -17,7 +19,7 @@ J = 1.0
 # here is pseudocode.animation.py N T 
 # where N is array side length and T is temp (close to 1)
 if(len(sys.argv) != 4):
-    print ("Usage python ising.animation.py N T K/G")
+    print ("Usage python interface.py N T K/G")
     sys.exit()
 
 lx=int(sys.argv[1]) 
@@ -70,10 +72,12 @@ for n in range(nstep):
     #     im=plt.imshow(spin, animated=True)
     #     plt.draw()
     #     plt.pause(0.0001)
-
+a = time.time()
 np.save(f"spin_data/spin_data_{lx}_{kT}_{sys.argv[3]}", super_spin)
-
-print(f"Done {kT}")
+b = time.time()
+print(f"Saving time = {b-a}")
+end = time.time()
+print(f"Done {kT}\nRun Time = {end - start}")
 # import subprocess
 
 # msg =  "Welcome,\nThis little interface will allow you to simulate an Ising Model.\nYou may choose between a Kawazaki Algorithm or a Glauber Algorithm\nTo select Kawazaki press k, to select Glauber press g: "
