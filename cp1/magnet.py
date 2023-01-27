@@ -1,18 +1,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from functions import susceptibility
+from functions import susceptibility, energy
 
 
 susc_list = np.zeros(21)
 
 T_list = np.zeros(21)
 
+energy_list = np.zeros(21)
+
 T = 1.0
 for i in range(21):
 
     a = np.load(f"spin_data/spin_data_50_{T:.3}_G.npy")
+    
+    e_prime = np.zeros(990)
+    for j in range(a.shape[0]):
+        e_prime[j] = energy(a[j, :, :], 50)
 
+    # print(np.average(e_prime))
+    energy_list[i] = np.average(e_prime)
 
     susc_list[i] = susceptibility(a, 50, T)
     T_list[i] = T
@@ -24,5 +32,12 @@ for i in range(21):
 plt.plot(T_list, susc_list, marker = 'x',color = 'k')
 plt.ylabel("Magnetic Susceptibility")
 plt.xlabel("Temperature")
-plt.savefig("/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/mag_susc_vs_temp_line.png")
+plt.show()
+# "/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/mag_susc_vs_temp_line.png"
+plt.clf()
+
+plt.plot(T_list, energy_list, marker = 'x',color = 'k')
+plt.xlabel("Temperature")
+plt.ylabel("Energy")
+plt.show()
 plt.clf()

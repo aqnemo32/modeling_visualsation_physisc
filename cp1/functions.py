@@ -5,7 +5,6 @@ matplotlib.use('TKAgg') #what does this do
 import random
 import numpy as np
 
-
 def kawazaki(spin, lx, ly, kT):
     '''
     '''
@@ -61,7 +60,6 @@ def glauber(spin, lx, ly, kT):
 
     '''
     '''
-
     for i in range(lx):
         for j in range(ly):
             #select spin randomly
@@ -83,6 +81,7 @@ def glauber(spin, lx, ly, kT):
                 r = random.random()
                 if r <= p: 
                     spin[itrial, jtrial] = spin_new 
+
     return spin
 
 
@@ -98,3 +97,18 @@ def susceptibility(super_spin, lx, kT):
     M_sq_avg = np.average(np.square(M))
 
     return 1/((lx**2)*kT) * (M_sq_avg - np.square(M_avg))
+
+
+def energy(spin, lx):
+    '''
+    '''
+    E = 0
+    for i in range(lx):
+        for j in range(lx):
+            E += -spin[i,j] * (
+                    spin[np.mod(i-1,lx),j] +\
+                                spin[np.mod(i+1, lx),j] +\
+                                                spin[i,np.mod(j-1,lx)] +\
+                                                                    spin[i,np.mod(j+1,lx)])
+    
+    return E/2.0

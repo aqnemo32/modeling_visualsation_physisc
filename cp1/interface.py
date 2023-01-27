@@ -3,6 +3,7 @@ import matplotlib
 matplotlib.use('TKAgg') #what does this do
 
 import sys
+import os.path
 import random
 import numpy as np
 import matplotlib.pyplot as plt
@@ -33,19 +34,24 @@ super_spin = np.zeros((int((nstep-100)/10),lx, ly), dtype = float)
 
 
 #initialise spins randomly
-# print('i')
+
 # i want to write something that looks into spin data folder to check if a 
 # lower temp spin file is available without having to load it. dont kow ho explore directory in python
-for i in range(lx):
-    # print(f"j{i}")
-    for j in range(ly):
-        r=random.random()
-        if(r<0.5): spin[i,j]=-1
-        if(r>=0.5): spin[i,j]=1
-# need to add the Energy Calculation
 
-# fig = plt.figure()
-# im=plt.imshow(spin, animated=True)
+# if the previous temp run does exist then tit will load the last frame of the previous temp as the initial spin matrix
+# if the previous temp does not exist then a random matrix will be generated
+
+if os.path.exists(f"spin_data/eq_spin_50_{kT-0.1:.3}_{sys.argv[3]}.npy") == True:
+    spin = np.load(f"spin_data/eq_spin_50_{kT-0.1:.3}_{sys.argv[3]}.npy")
+else:
+    for i in range(lx):
+        for j in range(ly):
+            r=random.random()
+            if(r<0.5): spin[i,j]=-1
+            if(r>=0.5): spin[i,j]=1
+
+fig = plt.figure()
+im=plt.imshow(spin, animated=True)
 
 for n in range(nstep):
 
@@ -64,21 +70,22 @@ for n in range(nstep):
 
     # #       update measurements
     # #       dump output
-    #     f=open('spins.dat','w')
-    #     for i in range(lx):
-    #         for j in range(ly):
-    #             f.write('%d %d %lf\n'%(i,j,spin[i,j]))
-    #     f.close()
-    # #       show animation
-    #     plt.cla()
-    #     im=plt.imshow(spin, animated=True)
-    #     plt.draw()
-    #     plt.pause(0.0001)
-a = time.time()
+        f=open('spins.dat','w')
+        for i in range(lx):
+            for j in range(ly):
+                f.write('%d %d %lf\n'%(i,j,spin[i,j]))
+        f.close()
+    #       show animation
+        plt.cla()
+        im=plt.imshow(spin, animated=True)
+        plt.draw()
+        plt.pause(0.0001)
+
+
+
 np.save(f"spin_data/spin_data_{lx}_{kT}_{sys.argv[3]}", super_spin)
 np.save(f"spin_data/eq_spin_{lx}_{kT}_{sys.argv[3]}", super_spin[-1,:,:])
-b = time.time()
-print(f"Saving time = {b-a}")
+
 end = time.time()
 print(f"Done {kT}\nRun Time = {end - start}")
 # import subprocess
