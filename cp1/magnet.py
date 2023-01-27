@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 from functions import susceptibility, energy
 
-
+start = time.time()
 susc_list = np.zeros(21)
 
 T_list = np.zeros(21)
@@ -41,3 +42,5 @@ plt.xlabel("Temperature")
 plt.ylabel("Energy")
 plt.show()
 plt.clf()
+
+print(f"Run time = {time.time() - start}")

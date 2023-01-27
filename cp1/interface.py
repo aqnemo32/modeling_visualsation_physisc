@@ -17,8 +17,8 @@ J = 1.0
 
 #input
 # sys.argv is the input on the commande line, 
-# here is pseudocode.animation.py N T 
-# where N is array side length and T is temp (close to 1)
+# here is interface.py N T K/G
+# where N is array side length and T is temp
 if(len(sys.argv) != 4):
     print ("Usage python interface.py N T K/G")
     sys.exit()
@@ -32,11 +32,7 @@ spin=np.zeros((lx,ly),dtype=float)
 # create an array to store all the spin data
 super_spin = np.zeros((int((nstep-100)/10),lx, ly), dtype = float)
 
-
-#initialise spins randomly
-
-# i want to write something that looks into spin data folder to check if a 
-# lower temp spin file is available without having to load it. dont kow ho explore directory in python
+# set the initial spin matrix
 
 # if the previous temp run does exist then tit will load the last frame of the previous temp as the initial spin matrix
 # if the previous temp does not exist then a random matrix will be generated
