@@ -106,9 +106,6 @@ def energy(spin, lx):
     for i in range(lx):
         for j in range(lx):
             E += -spin[i,j] * (
-                    spin[np.mod(i-1,lx),j] +\
-                                spin[np.mod(i+1, lx),j] +\
-                                                spin[i,np.mod(j-1,lx)] +\
-                                                                    spin[i,np.mod(j+1,lx)])
+                    spin[np.mod(i-1,lx),j] +spin[i,np.mod(j+1,lx)])
     
-    return E/2.0
+    return E

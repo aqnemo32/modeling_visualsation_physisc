@@ -32,17 +32,17 @@ np.save("glauber_final_data", np.array((T_list, susc_list, energy_list), dtype =
 # suscetibility is like the variance of the Magnetisation of the system
 # at low temp, boltzmann weight not very big, so system tends to uniform magnetisation
 # at high tem
-plt.plot(T_list, susc_list, marker = 'x',color = 'k')
-plt.ylabel("Magnetic Susceptibility")
-plt.xlabel("Temperature")
-plt.show()
+# plt.plot(T_list, susc_list, marker = 'x',color = 'k')
+# plt.ylabel("Magnetic Susceptibility")
+# plt.xlabel("Temperature")
+# plt.show()
 # "/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/mag_susc_vs_temp_line.png"
-plt.clf()
+# plt.clf()
 
-plt.plot(T_list, energy_list, marker = 'x',color = 'k')
-plt.xlabel("Temperature")
-plt.ylabel("Energy")
-plt.show()
-plt.clf()
+# plt.plot(T_list, energy_list, marker = 'x',color = 'k')
+# plt.xlabel("Temperature")
+# plt.ylabel("Energy")
+# plt.show()
+# plt.clf()
 
 print(f"Run time = {time.time() - start}")
