@@ -5,30 +5,44 @@ import time
 from functions import susceptibility, energy
 
 start = time.time()
-susc_list = np.zeros(21)
 
-T_list = np.zeros(21)
 
-energy_list = np.zeros(21)
+# T, Energy, Susc, Error Susc, Heat, Error Heat 
+data = np.zeros((21,6), dtype = float)
+
 
 T = 1.0
 for i in range(21):
 
     a = np.load(f"spin_data/spin_data_50_{T:.3}_G.npy")
+
+    data[i,0] = T
     
+    dummy = susceptibility(a, 50, T)
+
+    data[i,2] = dummy[0]
+
+    data[i,3] = dummy[1]
+
+
+
     e_prime = np.zeros(990)
     for j in range(a.shape[0]):
         e_prime[j] = energy(a[j, :, :], 50)
 
     # print(np.average(e_prime))
-    energy_list[i] = np.average(e_prime)
+    data[i,1] = np.average(e_prime)
 
-    susc_list[i] = susceptibility(a, 50, T)
-    T_list[i] = T
+    E_sq = e_prime**2
+
+    data[i,4] = 1/(50**2 * T**2) * (np.average(E_sq)- np.square(data[i,1]))
+
+    data[1,5] = np.std(E_sq) + 2*np.std(e_prime)
 
     T += 0.1
 
-np.save("glauber_final_data", np.array((T_list, susc_list, energy_list), dtype = float))
+
+np.savetxt("glauber_final_data.dat", data)
 # suscetibility is like the variance of the Magnetisation of the system
 # at low temp, boltzmann weight not very big, so system tends to uniform magnetisation
 # at high tem
