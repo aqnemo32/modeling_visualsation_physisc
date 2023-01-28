@@ -27,6 +27,8 @@ for i in range(21):
     T_list[i] = T
 
     T += 0.1
+
+np.save("glauber_final_data", np.array((T_list, susc_list, energy_list), dtype = float))
 # suscetibility is like the variance of the Magnetisation of the system
 # at low temp, boltzmann weight not very big, so system tends to uniform magnetisation
 # at high tem
