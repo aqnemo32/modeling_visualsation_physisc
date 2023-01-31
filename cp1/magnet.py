@@ -46,17 +46,23 @@ np.savetxt("glauber_final_data.dat", data, fmt = "%1.5e")
 # suscetibility is like the variance of the Magnetisation of the system
 # at low temp, boltzmann weight not very big, so system tends to uniform magnetisation
 # at high tem
-# plt.plot(T_list, susc_list, marker = 'x',color = 'k')
-# plt.ylabel("Magnetic Susceptibility")
-# plt.xlabel("Temperature")
-# plt.show()
-# "/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/mag_susc_vs_temp_line.png"
-# plt.clf()
+plt.plot(data[:,0], data[:,2], marker = 'x',color = 'k')
+plt.ylabel("Magnetic Susceptibility")
+plt.xlabel("Temperature")
+plt.savefig("/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/mag_susc_vs_temp_line.png")
 
-# plt.plot(T_list, energy_list, marker = 'x',color = 'k')
-# plt.xlabel("Temperature")
-# plt.ylabel("Energy")
-# plt.show()
-# plt.clf()
+plt.clf()
+
+plt.plot(data[:,0],data[:,1], marker = 'x',color = 'k')
+plt.xlabel("Temperature")
+plt.ylabel("Energy")
+plt.savefig("/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/energy_vs_temp_line.png")
+plt.clf()
+
+plt.plot(data[:,0],data[:,4], marker = 'x',color = 'k')
+plt.xlabel("Temperature")
+plt.ylabel("Energy")
+plt.savefig("/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/heat_vs_temp_line.png")
+plt.clf()
 
 print(f"Run time = {time.time() - start}")
