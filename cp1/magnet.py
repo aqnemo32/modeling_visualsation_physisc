@@ -17,8 +17,10 @@ for i in range(21):
     a = np.load(f"spin_data/spin_data_50_{T:.3}_G.npy")
 
     data[i,0] = T
+
+    M = np.sum(a, axis = (1,2))
     
-    dummy = susceptibility(a, 50, T)
+    dummy = susceptibility(M, 50, T)
 
     data[i,2] = dummy[0]
 

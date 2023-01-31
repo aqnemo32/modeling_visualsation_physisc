@@ -85,12 +85,12 @@ def glauber(spin, lx, ly, kT):
     return spin
 
 
-def susceptibility(super_spin, lx, kT):
+def susceptibility(M, lx, kT):
     '''
     super_spin: numpy array
                 Spin arrays for an Ising model dimension = (numstep-100/10, lx, ly)
     '''
-    M = np.sum(super_spin, axis = (1,2))
+    # M = np.sum(super_spin, axis = (1,2))
 
     M_avg = np.average(M)
 
