@@ -27,7 +27,7 @@ for i in range(21):
 
     data[i,3] = dummy[1]
 
-    data[i,6] = dummy[2]
+    data[i,6] = np.absolute(dummy[2])
 
 
     e_prime = np.zeros(990)
@@ -72,7 +72,7 @@ plt.savefig("/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/heat_vs_temp_
 plt.clf()
 
 
-plt.plot(data[:,0],np.absolute(data[:,6]), marker = 'x',color = 'k')
+plt.plot(data[:,0],data[:,6], marker = 'x',color = 'k')
 plt.xlabel("Temperature")
 plt.ylabel("Magnetisation")
 plt.title("Magnetisation versus Temperature (Glauber)")
