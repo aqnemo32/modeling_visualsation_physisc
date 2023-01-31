@@ -1,10 +1,10 @@
 #!/bin/bash
 
-TEMP=22
-for i in range {1..9}
+TEMP=9
+for i in range {1..22}
 do
     echo "T = $TEMP"
-    python3 interface.py 50 $TEMP G
+    python3 interface.py 50 $TEMP K
     TEMP=$((TEMP+1))
 done 
 
