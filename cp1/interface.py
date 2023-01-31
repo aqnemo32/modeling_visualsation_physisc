@@ -24,7 +24,11 @@ if(len(sys.argv) != 4):
     sys.exit()
 
 lx=int(sys.argv[1]) 
-ly=lx 
+ly=lx
+
+# to use a bash script to run all the programs in one go I needed to input 
+the temp aa integers as bash does not accept float point,
+# input of 10 represents a Temp of 1.0
 kT=float(sys.argv[2])/10 
 
 spin=np.zeros((lx,ly),dtype=float)
@@ -50,7 +54,8 @@ fig = plt.figure()
 im=plt.imshow(spin, animated=True)
 
 for n in range(nstep):
-
+# to speed up I would ideally have the if statement outsde the bif for 
+loop, would prevent it checking all the time
     if sys.argv[3] == 'K' or sys.argv[3] == 'k':
         spin = kawazaki(spin, lx, ly, kT)
 

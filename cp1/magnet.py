@@ -42,7 +42,7 @@ for i in range(21):
     T += 0.1
 
 
-np.savetxt("glauber_final_data.dat", data)
+np.savetxt("glauber_final_data.dat", data, fmt = "%1.5e")
 # suscetibility is like the variance of the Magnetisation of the system
 # at low temp, boltzmann weight not very big, so system tends to uniform magnetisation
 # at high tem
