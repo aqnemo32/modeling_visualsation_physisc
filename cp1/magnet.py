@@ -7,7 +7,7 @@ from functions import susceptibility, energy
 start = time.time()
 
 
-# T, Energy, Susc, Error Susc, Heat, Error Heat 
+# T, Energy, Susc, Error Susc, Heat, Error Heat, Mag 
 data = np.zeros((21,7), dtype = float)
 
 
@@ -39,7 +39,7 @@ for i in range(21):
 
     E_sq = e_prime**2
 
-    data[i,4] = 1/(50**2 * T**2) * (np.average(E_sq)- np.square(data[i,1]))
+    data[i,4] = 1/(50**2 * T**2) * (np.average(E_sq) - np.square(data[i,1]))
 
     data[1,5] = np.std(E_sq) + 2*np.std(e_prime)
 
@@ -64,7 +64,8 @@ plt.title("Energy versus Temperature (Glauber)")
 plt.savefig("/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/energy_vs_temp_line.png")
 plt.clf()
 
-plt.plot(data[:,0],data[:,4], marker = 'x',color = 'k')
+# plt.plot(data[:,0],data[:,4], marker = 'x',color = 'k')
+plt.errorbar(data[:,0],data[:,4], marker = 'x',color = 'k')
 plt.xlabel("Temperature")
 plt.ylabel("Heat Capacity")
 plt.title("Heat Capacity versus Temperature (Glauber)")
