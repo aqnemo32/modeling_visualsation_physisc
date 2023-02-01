@@ -35,7 +35,6 @@ for i in range(21):
     for j in range(a.shape[0]):
         e_prime[j] = energy(a[j, :, :], 50)
     
-    # print(np.average(e_prime))
     data[i,1] = np.average(e_prime)
 
     E_sq = e_prime**2
