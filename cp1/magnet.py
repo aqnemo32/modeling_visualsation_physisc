@@ -6,7 +6,7 @@ from functions import susceptibility, energy
 
 start = time.time()
 
-
+# 0,  1,     2,    3,          4,    5,          6
 # T, Energy, Susc, Error Susc, Heat, Error Heat, Mag 
 data = np.zeros((21,7), dtype = float)
 
@@ -37,11 +37,13 @@ for i in range(21):
     
     data[i,1] = np.average(e_prime)
 
-    E_sq = e_prime**2
+    E_sq_avg = np.average(e_prime**2)
 
-    data[i,4] = 1/(50**2 * T**2) * (np.average(E_sq) - np.square(data[i,1]))
+    E_avg_sq = np.square(data[i,1])
+    delta_e = E_sq_avg - E_avg_sq
+    data[i,4] = 1/(50**2 * T**2) * (delta_e)
 
-    data[1,5] = np.std(E_sq) + 2*np.std(e_prime)
+    data[i,5] = np.sqrt(delta_e/a.shape[0]) * np.sqrt(2/2500)
 
     T += 0.1
 
@@ -50,7 +52,7 @@ np.savetxt("glauber_final_data.dat", data, fmt = "%1.5e")
 # suscetibility is like the variance of the Magnetisation of the system
 # at low temp, boltzmann weight not very big, so system tends to uniform magnetisation
 # at high tem
-plt.plot(data[:,0], data[:,2], marker = 'x',color = 'k')
+plt.errorbar(data[:,0], data[:,2], marker = 'x',color = 'k', yerr= data[:, 3])
 plt.ylabel("Magnetic Susceptibility")
 plt.xlabel("Temperature")
 plt.title("Mangetic Susceptibility versus Temperature (Glauber)")
@@ -65,7 +67,7 @@ plt.savefig("/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/energy_vs_tem
 plt.clf()
 
 # plt.plot(data[:,0],data[:,4], marker = 'x',color = 'k')
-plt.errorbar(data[:,0],data[:,4], marker = 'x',color = 'k')
+plt.errorbar(data[:,0],data[:,4], marker = 'x',color = 'k', yerr=data[:, 5])
 plt.xlabel("Temperature")
 plt.ylabel("Heat Capacity")
 plt.title("Heat Capacity versus Temperature (Glauber)")
