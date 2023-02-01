@@ -84,7 +84,6 @@ def glauber(spin, lx, ly, kT):
 
     return spin
 
-
 def susceptibility(M, lx, kT):
     '''
     super_spin: numpy array
