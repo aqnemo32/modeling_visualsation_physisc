@@ -14,13 +14,13 @@ data = np.zeros((21,7), dtype = float)
 T = 1.0
 for i in range(21):
 
-    a = np.load(f"spin_data/spin_data_50_{T:.3}_G.npy")
-    print(a[0])
+    a = np.load(f"spin_data/spin_data_50_{T:.3}_G.npy")[1:, :, :]
+
     data[i,0] = T
 
     M = np.sum(a, axis = (1,2))
 
-    print(M)
+
     
     dummy = susceptibility(M, 50, T)
 
@@ -31,10 +31,10 @@ for i in range(21):
     data[i,6] = np.absolute(dummy[2])
 
 
-    e_prime = np.zeros(990)
+    e_prime = np.zeros(a.shape[0])
     for j in range(a.shape[0]):
         e_prime[j] = energy(a[j, :, :], 50)
-    print(e_prime)
+    
     # print(np.average(e_prime))
     data[i,1] = np.average(e_prime)
 

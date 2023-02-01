@@ -66,7 +66,7 @@ for n in range(nstep):
 
     if(n%10==0):
         # print(f"{n}")
-        if n > 100:
+        if n > 100: # thats what causing the fist frame to be all zeros, n = 99 is the 10 th sweep but I am ingnoring it
             super_spin[int(n/10) - 10, :, :] = spin
 
     # #       update measurements
