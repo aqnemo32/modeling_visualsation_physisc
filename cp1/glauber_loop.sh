@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TEMP=9
-for i in range {1..22}
+TEMP=17
+for i in range {1..14}
 do
     echo "T = $TEMP"
     python3 interface.py 50 $TEMP K
