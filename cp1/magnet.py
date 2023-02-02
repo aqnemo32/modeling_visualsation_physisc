@@ -18,9 +18,8 @@ def delta_e(E):
 T = 1.0
 for i in range(21):
 
-    a = np.load(f"spin_data/spin_data_50_{T:.3}_{sys.argv[1]}.npy")[1:, :, 
-:]
-
+    a = np.load(f"spin_data/spin_data_50_{T:.3}_{sys.argv[1]}.npy")
+    print(a[0])
     data[i,0] = T
 
     M = np.sum(a, axis = (1,2))
