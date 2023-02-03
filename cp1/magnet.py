@@ -6,10 +6,13 @@ from functions import susceptibility, energy
 
 start = time.time()
 
+f = open(f"{sys.argv[1]}_final_data_test.dat", 'w')
+f.write('Temperature, Energy, Susceptibility, Error Susceptibility, Heat Capacity, Error Heat Capacity, Magnetisation')
 # 0,  1,     2,    3,          4,    5,          6
 # T, Energy, Susc, Error Susc, Heat, Error Heat, Mag 
 data = np.zeros((21,7), dtype = float)
 
+# data[0,:] = 'Temperature', 'Energy', 'Susceptibility', 'Error Susceptibility', 'Heat Capacity', 'Error Heat Capacity', 'Magnetisation'
 
 def delta_e(E):
 
@@ -19,7 +22,7 @@ T = 1.0
 for i in range(21):
 
     a = np.load(f"spin_data/spin_data_50_{T:.3}_{sys.argv[1]}.npy")
-    print(a[0])
+
     data[i,0] = T
 
     M = np.sum(a, axis = (1,2))
@@ -54,8 +57,8 @@ for i in range(21):
 
     T += 0.1
 
-
-np.savetxt(f"{sys.argv[1]}_final_data.dat", data, fmt = "%1.5e")
+f.write('{%1.3f}'.format(data))
+# np.savetxt(f"{sys.argv[1]}_final_data.dat", data, fmt = "%1.5e")
 # suscetibility is like the variance of the Magnetisation of the system
 # at low temp, boltzmann weight not very big, so system tends to uniform magnetisation
 # at high tem
@@ -86,6 +89,6 @@ plt.plot(data[:,0],data[:,6], marker = 'x',color = 'k')
 plt.xlabel("Temperature")
 plt.ylabel("Magnetisation")
 plt.title(f"Magnetisation versus Temperature ({sys.argv[1]})")
-plt.savefig(f"/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/magnetisation_vs_temp_line_{{sys.argv[1]}}.png")
+plt.savefig(f"/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/magnetisation_vs_temp_line_{sys.argv[1]}.png")
 plt.clf()
 print(f"Run time = {time.time() - start}")
