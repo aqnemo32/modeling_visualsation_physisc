@@ -1,11 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import rcParamsDefault
 import time
 import sys
 from functions import susceptibility, energy
 
 start = time.time()
 
+plt.rcParams["figure.dpi"]=150
+plt.rcParams["figure.facecolor"]="white"
+plt.rcParams["figure.figsize"]=(8, 6)
 
 # 0,  1,     2,    3,          4,    5,          6
 # T, Energy, Susc, Error Susc, Heat, Error Heat, Mag 
@@ -44,11 +48,12 @@ for i in range(21):
     data[i,1] = np.average(e_prime)
 
     data[i,4] = 1/(50**2 * T**2) * (delta_e(e_prime))
-
+    # error calc heat capacity
     c_i = np.zeros(a.shape[0])
 
     for k in range(a.shape[0]):
-        E_removed = e_prime[k:]
+        E_removed = np.delete(e_prime, k)
+
 
         c_i[k] = 1/(50**2 * T**2) * (delta_e(E_removed))
 
