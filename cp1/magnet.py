@@ -6,13 +6,12 @@ from functions import susceptibility, energy
 
 start = time.time()
 
-f = open(f"{sys.argv[1]}_final_data_test.dat", 'w')
-f.write('Temperature, Energy, Susceptibility, Error Susceptibility, Heat Capacity, Error Heat Capacity, Magnetisation')
+
 # 0,  1,     2,    3,          4,    5,          6
 # T, Energy, Susc, Error Susc, Heat, Error Heat, Mag 
 data = np.zeros((21,7), dtype = float)
 
-# data[0,:] = 'Temperature', 'Energy', 'Susceptibility', 'Error Susceptibility', 'Heat Capacity', 'Error Heat Capacity', 'Magnetisation'
+# label = 'Temperature', 'Energy', 'Susceptibility', 'Error Susceptibility', 'Heat Capacity', 'Error Heat Capacity', 'Magnetisation'
 
 def delta_e(E):
 
@@ -57,8 +56,8 @@ for i in range(21):
 
     T += 0.1
 
-f.write('{%1.3f}'.format(data))
-# np.savetxt(f"{sys.argv[1]}_final_data.dat", data, fmt = "%1.5e")
+
+np.savetxt(f"{sys.argv[1]}_final_data.dat", data, fmt = "%1.5e")
 # suscetibility is like the variance of the Magnetisation of the system
 # at low temp, boltzmann weight not very big, so system tends to uniform magnetisation
 # at high tem
