@@ -42,8 +42,10 @@ super_spin = np.zeros((int((nstep-100)/10),lx, ly), dtype = float)
 # if the previous temp does not exist then a random matrix will be generated
 
 if os.path.exists(f"spin_data/eq_spin_50_{kT-0.1:.3}_{sys.argv[3]}.npy") == True:
+    print('1')
     spin = np.load(f"spin_data/eq_spin_50_{kT-0.1:.3}_{sys.argv[3]}.npy")
 else:
+    print('2')
     for i in range(lx):
         for j in range(ly):
             r=random.random()

@@ -11,9 +11,9 @@ plt.rcParams["figure.dpi"]=150
 plt.rcParams["figure.facecolor"]="white"
 plt.rcParams["figure.figsize"]=(8, 6)
 
-# 0,  1,     2,    3,          4,    5,          6
-# T, Energy, Susc, Error Susc, Heat, Error Heat, Mag 
-data = np.zeros((21,7), dtype = float)
+# 0, 1,      2,       3,    4,          5,    6,          7,   8
+# T, Energy, Error E, Susc, Error Susc, Heat, Error Heat, Mag, Error Mag
+data = np.zeros((21,9), dtype = float)
 
 # label = 'Temperature', 'Energy', 'Susceptibility', 'Error Susceptibility', 'Heat Capacity', 'Error Heat Capacity', 'Magnetisation'
 
@@ -34,20 +34,27 @@ for i in range(21):
     # susceptibility calculations 
     dummy = susceptibility(M, 50, T)
 
-    data[i,2] = dummy[0]
+    data[i,3] = dummy[0]
 
-    data[i,3] = dummy[1]
+    data[i,4] = dummy[1]
 
-    data[i,6] = np.absolute(dummy[2])
+    data[i,7] = np.absolute(dummy[2])
+
+    data[i,8] = dummy[3]
+
+
 
     # heat capacity calculations
     e_prime = np.zeros(a.shape[0])
     for j in range(a.shape[0]):
         e_prime[j] = energy(a[j, :, :], 50)
-    
+    # average E
     data[i,1] = np.average(e_prime)
+    # error for E
+    data[i,2] = np.sqrt(delta_e(e_prime)/(a.shape[0]-1))
+    # Heat Capacity
+    data[i,5] = 1/(50**2 * T**2) * (delta_e(e_prime))
 
-    data[i,4] = 1/(50**2 * T**2) * (delta_e(e_prime))
     # error calc heat capacity
     c_i = np.zeros(a.shape[0])
 
@@ -57,7 +64,7 @@ for i in range(21):
 
         c_i[k] = 1/(50**2 * T**2) * (delta_e(E_removed))
 
-    data[i,5] = np.sqrt(np.sum((c_i - data[i,4])**2, axis = 0))
+    data[i,6] = np.sqrt(np.sum((c_i - data[i,5])**2, axis = 0))
 
     T += 0.1
 
@@ -66,33 +73,4 @@ np.savetxt(f"{sys.argv[1]}_final_data.dat", data, fmt = "%1.5e")
 # suscetibility is like the variance of the Magnetisation of the system
 # at low temp, boltzmann weight not very big, so system tends to uniform magnetisation
 # at high tem
-plt.errorbar(data[:,0], data[:,2], marker = 'x',color = 'k', yerr= data[:, 3])
-plt.ylabel("Magnetic Susceptibility")
-plt.xlabel("Temperature")
-plt.title(f"Mangetic Susceptibility versus Temperature ({sys.argv[1]})")
-plt.savefig(f"/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/mag_susc_vs_temp_line_{sys.argv[1]}.png")
-plt.clf()
-
-plt.plot(data[:,0],data[:,1], marker = 'x',color = 'k')
-plt.xlabel("Temperature")
-plt.ylabel("Energy")
-plt.title(f"Energy versus Temperature ({sys.argv[1]})")
-plt.savefig(f"/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/energy_vs_temp_line_{sys.argv[1]}.png")
-plt.clf()
-
-# plt.plot(data[:,0],data[:,4], marker = 'x',color = 'k')
-plt.errorbar(data[:,0],data[:,4], marker = 'x',color = 'k', yerr=data[:, 5])
-plt.xlabel("Temperature")
-plt.ylabel("Heat Capacity")
-plt.title(f"Heat Capacity versus Temperature ({sys.argv[1]})")
-plt.savefig(f"/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/heat_vs_temp_line_{sys.argv[1]}.png")
-plt.clf()
-
-
-plt.plot(data[:,0],data[:,6], marker = 'x',color = 'k')
-plt.xlabel("Temperature")
-plt.ylabel("Magnetisation")
-plt.title(f"Magnetisation versus Temperature ({sys.argv[1]})")
-plt.savefig(f"/Users/achillequarante/Desktop/mod_vis/cp1/cp1_graphs/magnetisation_vs_temp_line_{sys.argv[1]}.png")
-plt.clf()
 print(f"Run time = {time.time() - start}")

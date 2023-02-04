@@ -96,17 +96,21 @@ def susceptibility(M, lx, kT):
     M_sq = np.square(M)
     M_sq_avg = np.average(M_sq)
 
-    susc = 1/((lx**2)*kT) * (M_sq_avg - np.square(M_avg))
+    M_avg_sq = np.square(M_avg)
+
+    error_M = np.sqrt((M_sq_avg - M_avg_sq)/(M.shape[0]-1))
+    
+    susc = 1/((lx**2)*kT) * (M_sq_avg - M_avg_sq)
     # error calc in susceptibility
     c_i = np.zeros(M.shape[0])
 
     for k in range(M.shape[0]):
         M_removed = np.delete(M,k)
 
-        c_i[k] = 1/(50**2 * kT**2) * (np.average(np.square(M_removed)) - np.square(np.average(M_removed)))
-    error_M = np.sqrt(np.sum((c_i - susc)**2, axis = 0))
+        c_i[k] = 1/(50**2 * kT) * (np.average(np.square(M_removed)) - np.square(np.average(M_removed)))
+    error_susc = np.sqrt(np.sum((c_i - susc)**2, axis = 0))
 
-    return susc, error_M, M_avg
+    return susc, error_susc, M_avg, error_M
 
 
 def energy(spin, lx):
