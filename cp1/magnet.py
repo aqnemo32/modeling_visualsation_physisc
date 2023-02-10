@@ -15,7 +15,7 @@ plt.rcParams["figure.figsize"]=(8, 6)
 # T, Energy, Error E, Susc, Error Susc, Heat, Error Heat, Mag, Error Mag
 data = np.zeros((21,9), dtype = float)
 
-# label = 'Temperature', 'Energy', 'Susceptibility', 'Error Susceptibility', 'Heat Capacity', 'Error Heat Capacity', 'Magnetisation'
+# label = Temperature, Energy, Error Energy, Susceptibility, Error Susceptibility, Heat Capacity, Error Heat Capacity, Magnetisation, Error Magnetisation
 
 def delta_e(E):
 
