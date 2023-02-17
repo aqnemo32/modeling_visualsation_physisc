@@ -27,20 +27,16 @@ kT=float(sys.argv[2])
 
 spin=np.zeros((lx,ly),dtype=float)
 
-#initialise spins randomly
+#initialise split half and half
 # print('i')
-for i in range(lx):
-    # print(f"j{i}")
-    for j in range(ly):
-        r=random.random()
-        if(r<0.5): spin[i,j]=-1
-        if(r>=0.5): spin[i,j]=1
-# need to add the Energy Calculation
+print('2')
+spin[:,:25] = 1
+spin[:, 25:] = -1
 
 fig = plt.figure()
 im=plt.imshow(spin, animated=True)
 
-#update loop here - for Glauber dynamics
+#update loop here - for Kawazaki dynamics
 
 for n in range(nstep):
     for i in range(lx):
