@@ -42,7 +42,7 @@ def rules(spin):
 
 
 def main():
-    nstep = 5000
+    nstep = 2000
 
     lx=50 
     ly=lx 
@@ -57,18 +57,24 @@ def main():
             r=random.random()
             if(r>=0.5): spin[i,j]=1
 
-    # print(np.sum(spin, axis = (0,1)))
-    # fig = plt.figure()
+    print(np.sum(spin, axis = (0,1)))
+    fig = plt.figure()
 
     im=plt.imshow(spin, animated=True)
 
     for n in range(nstep):
         spin = rules(spin)
         activesites[n] = np.sum(spin, axis = (0,1))
-        # plt.cla()
-        # im=plt.imshow(spin, animated=True)
-        # plt.draw()
-        # plt.pause(0.0001)
+        plt.cla()
+        im=plt.imshow(spin, animated=True)
+        plt.draw()
+        plt.pause(0.0001)
+        if n > 200:
+            conv_test = np.std(activesites[n-20:n])
+            if conv_test < 1.0:
+                print(f"Finished early : {n}")
+                activesites = activesites[activesites > 0]
+                break
     np.save(f"output-activesite/random-{sys.argv[1]}.npy", activesites)
 main()
 # Set 0 to dead and 1 to alive, as int, to reduce the number of necessary bits
