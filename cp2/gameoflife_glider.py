@@ -5,8 +5,12 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from scipy.ndimage import convolve
 
-# The random initialisation Game of Life
 
+# I want to set up a class that can calucalte the velocity and CoM position for a glider
+# class glider:
+#     def __init__(self, CoM, vel):
+#         self.CoM = CoM
+#         self.vel = vel
 
 '''
 I think the problem is that i update as i go, i must look at the whole thing and update it after I checked every point --> Fixed it pretty sure
@@ -40,35 +44,53 @@ def rules(spin):
     return spin
 
 
+# def glider(spin_ij):
+#     return np.array(([0,0,1], [1,0,1], [0,1,1]), dtype = int) or np.array(([1,0,0], [0,1,1], [1,1,0]), dtype = int)
+
+# def blinker(spin_ij):
+#     return np.array(([0,1,0], [0,1,0], [0,1,0]))
+
 
 def main():
-    nstep = 5000
+    nstep = 10000
 
     lx=50 
     ly=lx 
 
-    activesites = np.zeros(nstep)
-
     spin=np.zeros((lx,ly),dtype=int)
 
-    #initialise spins randomly for GoL 
-    for i in range(lx):
-        for j in range(ly):
-            r=random.random()
-            if(r>=0.5): spin[i,j]=1
+    #initialise spins randomly for GoL
 
-    # print(np.sum(spin, axis = (0,1)))
-    # fig = plt.figure()
+    i = random.randint(0, 50)
+    j = random.randint(0, 50)
 
+    spin[np.mod(i-1,50):np.mod(i+2,50), np.mod(j-1,50):np.mod(j+2,50)] = np.array(([0,0,1], [1,0,1], [0,1,1]), dtype = int)# or np.array(([1,0,0], [0,1,1], [1,1,0]), dtype = int)
+
+    i = random.randint(0, 50)
+    j = random.randint(0, 50)
+    print(np.array(([0,1,0], [0,1,0], [0,1,0]), dtype = int).shape)
+    spin[np.mod(i-1,50):np.mod(i+2,50), np.mod(j-1,50):np.mod(j+2,50)] = np.array(([0,1,0], [0,1,0], [0,1,0]), dtype = int)
+
+
+    print(np.sum(spin, axis = (0,1)))
+    fig = plt.figure()
     im=plt.imshow(spin, animated=True)
 
-    for n in range(nstep):
+    for n in range(1000):
         spin = rules(spin)
-        activesites[n] = np.sum(spin, axis = (0,1))
-        # plt.cla()
-        # im=plt.imshow(spin, animated=True)
-        # plt.draw()
-        # plt.pause(0.0001)
-    np.save(f"output-activesite/random-{sys.argv[1]}.npy", activesites)
+        # spin = np.copy(rules(spin))
+        # if(n%10==0):  
+    #       update measurements
+    # #       dump output
+    #     f=open('spins.dat','w')
+    #     for i in range(lx):
+    #         for j in range(ly):
+    #             f.write('%d %d %lf\n'%(i,j,spin[i,j]))
+    #     f.close()
+    #       show animation
+        plt.cla()
+        im=plt.imshow(spin, animated=True)
+        plt.draw()
+        plt.pause(0.0001)
 main()
 # Set 0 to dead and 1 to alive, as int, to reduce the number of necessary bits
