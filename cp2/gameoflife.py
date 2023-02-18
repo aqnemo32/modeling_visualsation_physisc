@@ -3,7 +3,6 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from scipy.ndimage import convolve
 
 # The random initialisation Game of Life
 
@@ -42,7 +41,7 @@ def rules(spin):
 
 
 def main():
-    nstep = 2000
+    nstep = 5000
 
     lx=50 
     ly=lx 
@@ -58,8 +57,8 @@ def main():
             if(r>=0.5): spin[i,j]=1
 
     print(np.sum(spin, axis = (0,1)))
+    
     fig = plt.figure()
-
     im=plt.imshow(spin, animated=True)
 
     for n in range(nstep):
