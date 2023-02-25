@@ -11,22 +11,22 @@ import matplotlib.animation as animation
 I think the problem is that i update as i go, i must look at the whole thing and update it after I checked every point --> Fixed it pretty sure
 '''
 def rules(spin):
-    n = np.zeros((50,50))
-    for i in range(50):
-        for j in range(50):
+    n = np.zeros((lx,lx))
+    for i in range(lx):
+        for j in range(lx):
             #compute the sum of all the nearest neighbpurs (1 = alive, 0 = dead)
             n[i,j] = spin[
-                i, np.mod(j+1, 50)] + spin[
-                i, np.mod(j-1, 50)] + spin[
-                np.mod(i+1, 50), j] + spin[
-                np.mod(i-1, 50), j] + spin[
-                np.mod(i+1, 50), np.mod(j+1, 50)] + spin[
-                np.mod(i-1, 50), np.mod(j-1, 50)] + spin[
-                np.mod(i+1, 50), np.mod(j-1, 50)] + spin[
-                np.mod(i-1, 50), np.mod(j+1, 50)]
+                i, np.mod(j+1, lx)] + spin[
+                i, np.mod(j-1, lx)] + spin[
+                np.mod(i+1, lx), j] + spin[
+                np.mod(i-1, lx), j] + spin[
+                np.mod(i+1, lx), np.mod(j+1, lx)] + spin[
+                np.mod(i-1, lx), np.mod(j-1, lx)] + spin[
+                np.mod(i+1, lx), np.mod(j-1, lx)] + spin[
+                np.mod(i-1, lx), np.mod(j+1, lx)]
 # now that I have the sum of nearest neighbours i can check the spin matrix and n matrix side by side update all positions simultaneously
-    for i in range(50):
-            for j in range(50):
+    for i in range(lx):
+            for j in range(lx):
                 if spin[i,j] == 1:
                     if n[i,j] == 2 or n[i,j] == 3:
                         pass
@@ -43,7 +43,7 @@ def rules(spin):
 def main():
     nstep = 5000
 
-    lx=50 
+    lx=int(sys.argv(0) )
     ly=lx 
 
     activesites = np.zeros(nstep)
