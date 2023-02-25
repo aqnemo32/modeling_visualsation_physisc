@@ -25,7 +25,8 @@ def rules(spin, lx, ly, p1, p2, p3, i_immune, j_immune):
         for j in range(ly):
             itrial=np.random.randint(0,lx)
             jtrial=np.random.randint(0,ly)
-            # checks is the selected spin is one of the permanently immune ones, selects new spins (HOPEFULLY)
+            # checks is the selected spin is one of the permanently immune ones, 
+            # if true selects new spins (HOPEFULLY)
             for k,l in (i_immune, j_immune):
                 if itrial == i_immune and jtrial == j_immune:
                     break
