@@ -51,7 +51,7 @@ def rules(spin, lx, ly, p1, p2, p3):
 
 
 def main():
-    nstep = 5
+    nstep = 10000
 
     lx = int(sys.argv[1])
     ly = lx
@@ -72,12 +72,12 @@ def main():
 
     fig = plt.figure()
     im=plt.imshow(spin, animated=True)
-    avg_infected = np.zeros(nstep)
+    avg_infected = np.zeros(int((nstep-100)/10))
 
     for n in range(nstep):
         # should do 2500 attempted flips to progress to the next sweep.
         dummy = spin.flatten()
-        avg_infected[n] = dummy[dummy == 0].shape[0]
+        
 
         spin = rules(spin, lx, ly, p1, p2, p3)
 
@@ -85,6 +85,8 @@ def main():
 
 
         if n%10 == 0:
+            if n >= 100:
+                avg_infected[int(n/10 - 10)] = dummy[dummy == 0].shape[0]
 
             plt.cla()
             im=plt.imshow(spin, animated=True)
