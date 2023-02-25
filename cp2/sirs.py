@@ -3,12 +3,19 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
+# REDOOO
 def nearest_neighbours(i,j, spin, lx):
-    neighbout_matrix = spin[np.mod(i-1,lx):np.mod(i+2,lx), np.mod(j-1,lx):np.mod(j+2,lx)]
-    for val in neighbout_matrix:
-        if val == -1:
+    # wrote this to check if when person is Susceptible f there is an in
+    neighbour_matrix = np.zeros((3,3), dtype=int)
+
+    for k in range(3):
+        for l in range(3):
+            neighbour_matrix[k,l] = spin[np.mod(i-k,lx), np.mod(j-l, lx)]
+    neighbour_matrix = neighbour_matrix.flatten() * np.array(([1,1,1,1,0,1,1,1,1]), dtype=int)
+    for k in range(9):
+        if neighbour_matrix[k] == 0:
             return True
+        else: return False
 
 
 def rules(spin, lx, p1, p2, p3):
@@ -28,17 +35,17 @@ def rules(spin, lx, p1, p2, p3):
     return spin
 
 
-    
+
 
 def main():
-    nstep = 10000
+    nstep = 1000
 
-    lx = sys.argv[1]
-    lx = ly
+    lx = int(sys.argv[1])
+    ly = lx
 
-    p1 = sys.argv[2]
-    p2 = sys.argv[3]
-    p3 = sys.argv[4]
+    p1 = float(sys.argv[2])
+    p2 = float(sys.argv[3])
+    p3 = float(sys.argv[4])
 
     spin=np.zeros((lx,ly),dtype=int)
     # initialise spin amtrix with 1 = R, 0 = I, -1 = S
@@ -52,4 +59,13 @@ def main():
     im=plt.imshow(spin, animated=True)
 
     for n in range(nstep):
-        rules(spin, lx, p1, p2, p3)
+        spin = rules(spin, lx, p1, p2, p3)
+
+        if n%10 == 0:
+            print(n)
+            plt.cla()
+            im=plt.imshow(spin, animated=True)
+            plt.draw()
+            plt.pause(0.0001)
+
+main()
