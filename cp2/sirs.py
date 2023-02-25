@@ -8,13 +8,14 @@ def nearest_neighbours(i,j, spin, lx):
     # wrote this to check if when person is Susceptible f there is an in
     neighbour_matrix = np.zeros(4)
 
-    neighbour_matrix[0] = spin[np.mod(i-1,lx),j]
-    neighbour_matrix[1] = spin[np.mod(i+1,lx),j]
-    neighbour_matrix[2] = spin[i,np.mod(j-1,lx)]
-    neighbour_matrix[3] = spin[i,np.mod(j+1,lx)]
+    neighbour_matrix[0] = int(spin[np.mod(i-1,lx),j])
+    neighbour_matrix[1] = int(spin[np.mod(i+1,lx),j])
+    neighbour_matrix[2] = int(spin[i,np.mod(j-1,lx)])
+    neighbour_matrix[3] = int(spin[i,np.mod(j+1,lx)])
+    print(neighbour_matrix)
 
-    for k in neighbour_matrix:
-        if k == 0:
+    for papa in neighbour_matrix:
+        if int(papa) == 0:
             return True
         else: return False
 
@@ -24,15 +25,19 @@ def rules(spin, lx, p1, p2, p3):
         for j in range(lx):
 
             if spin[i,j] == -1:
+                print('susc')
                 if nearest_neighbours(i, j, spin, lx): # If the statement is true it goes forward with it
+                    print('true')
                     r = random.random()
                     if p1 <= r:
                         spin[i,j] = 0
             elif spin[i,j] == 0:
+                print('inf)')
                 r = random.random()
                 if p2 <= r:
                     spin[i,j] = 1
             else:
+                print('clean')
                 r = random.random()
                 if p3 <= r:
                     spin[i,j] = -1
@@ -42,7 +47,7 @@ def rules(spin, lx, p1, p2, p3):
 
 
 def main():
-    nstep = 1000
+    nstep = 1
 
     lx = int(sys.argv[1])
     ly = lx
