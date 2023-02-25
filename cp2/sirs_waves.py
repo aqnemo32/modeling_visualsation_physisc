@@ -51,7 +51,7 @@ def rules(spin, lx, ly, p1, p2, p3):
 
 
 def main():
-    nstep = 10000
+    nstep = 100100
 
     lx = int(sys.argv[1])
     ly = lx
