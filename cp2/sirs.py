@@ -91,7 +91,7 @@ def main():
             plt.draw()
             plt.pause(0.0001)
             # print(f"{n}, {spin.flatten()[spin.flatten() == 0].shape[0]}")
-    print(type(avg_infected))
+    # print(type(avg_infected))
     np.save(f"output_sirs/infected_{p1}_{p3}", avg_infected)
     # np.save(f"spin_data/eq_spin_{lx}_{kT}_{sys.argv[3]}", super_spin[-1,:,:])
 
