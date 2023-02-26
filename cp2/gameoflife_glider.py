@@ -49,7 +49,7 @@ def rules(spin, n):
 def center_of_mass(n):
     i_com_pos = np.sum(n, axis = 0).argmax()
     j_com_pos = np.sum(n, axis = 1).argmax()
-    if i_com_pos > 95 and j_com_pos > 95:
+    if (i_com_pos > 95 and j_com_pos > 95) or (i_com_pos < 5 and j_com_pos < 5):
         return -1
     else: 
         return np.array((np.sum(n, axis = 0).argmax(), np.sum(n, axis = 1).argmax()))
