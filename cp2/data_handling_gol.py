@@ -9,7 +9,7 @@ sim_time = np.zeros(len(files))
 for i, file in enumerate(files):
     sim_time[i] = np.load(f"output-activesite/{file}").shape[0]
 
-plt.hist(sim_time, bins = 30)
+plt.hist(sim_time[sim_time < 3000], bins = 100)
 plt.savefig('gol_sim_time_hist.png', format = 'png')
 # file_1 = np.load(f"output-activesite/{files[0]}")
 # file_2 = np.load(f"output-activesite/{files[2]}")
