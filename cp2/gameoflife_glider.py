@@ -46,13 +46,13 @@ def rules(spin, n):
 
     return spin
 
-def center_of_mass(n):
-    i_com_pos = np.sum(n, axis = 0).argmax()
-    j_com_pos = np.sum(n, axis = 1).argmax()
-    if (i_com_pos > 95 and j_com_pos > 95) or (i_com_pos < 5 and j_com_pos < 5):
+def center_of_mass(spin):
+    i_com_pos = np.sum(spin, axis = 0).argmax()
+    j_com_pos = np.sum(spin, axis = 1).argmax()
+    if (i_com_pos > 95 or j_com_pos > 95) or (i_com_pos < 5 or j_com_pos < 5):
         return -1
     else: 
-        return np.array((np.sum(n, axis = 0).argmax(), np.sum(n, axis = 1).argmax()))
+        return np.array((i_com_pos, j_com_pos), dtype = int)
 
 
 
@@ -70,8 +70,8 @@ def main():
 
     #initialise spins to generate a glider at anypoint on the grid
 
-    i = 1
-    j = 1
+    i = 8
+    j = 6
     spin[i-1:i+2, j-1:j+2] = np.array(([0,0,1], [1,0,1], [0,1,1]), dtype = int)# or np.array(([1,0,0], [0,1,1], [1,1,0]), dtype = int)
     print(np.sum(spin, axis = (0,1)))
     # i = random.randint(0, 50)
@@ -93,6 +93,6 @@ def main():
         # im=plt.imshow(spin, animated=True)
         # plt.draw()
         # plt.pause(0.0001)
-    np.save('glider_com_pos.npy', glider_pos)
+    np.save('glider_com_pos.npy', glider_pos[glider_pos[:,0] > 0])
 main()
 # Set 0 to dead and 1 to alive, as int, to reduce the number of necessary bits
