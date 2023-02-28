@@ -20,19 +20,12 @@ def nearest_neighbours(i,j, spin, lx):
         else: return False
 
 
-def rules(spin, lx, ly, p1, p2, p3, i_immune, j_immune):
+def rules(spin, lx, ly, p1, p2, p3):
     for i in range(lx):
         for j in range(ly):
             itrial=np.random.randint(0,lx)
             jtrial=np.random.randint(0,ly)
-            # checks is the selected spin is one of the permanently immune ones, 
-            # if true selects new spins (HOPEFULLY)
-            for k,l in (i_immune, j_immune):
-                if itrial == i_immune and jtrial == j_immune:
-                    break
-            else:
-                trial_spin = -spin[itrial, jtrial]
-
+            trial_spin = spin[itrial, jtrial]
             if trial_spin == -1:
                 # If the statement is true it goes forward with it
                 if nearest_neighbours(itrial, jtrial, spin, lx): 
@@ -45,12 +38,13 @@ def rules(spin, lx, ly, p1, p2, p3, i_immune, j_immune):
                 r = random.random()
                 if p2 <= r:
                     spin[itrial,jtrial] = 1
-            else:
+            elif trial_spin == 1:
                 
                 r = random.random()
                 if p3 <= r:
                     spin[itrial,jtrial] = -1
-            return spin
+            else: continue
+    return spin
 
 
 
@@ -70,7 +64,7 @@ def main():
     n_vacc = int(sys.argv[5])
 
     spin=np.zeros((lx,ly),dtype=int)
-    # initialise spin amtrix with 1 = R, 0 = I, -1 = S
+    # initialise spin amtrix with 1 = R, 0 = I, -1 = S, 2 = V
     for i in range(lx):
         for j in range(ly):
             r = random.random()
@@ -81,12 +75,12 @@ def main():
     im=plt.imshow(spin, animated=True)
     avg_infected = np.zeros(int((nstep-100)/10))
 
-    # define the permanently immunes patients
+    # define the permanently immunes patients ie vaccinated V = 2
     i_immune = np.array((np.random.randint(0,lx, size = n_vacc)))
     j_immune = np.array((np.random.randint(0,lx, size = n_vacc)))
 
-    for k, l in (i_immune, j_immune):
-        spin[k,l] = 0
+    for k, l in zip(i_immune, j_immune):
+        spin[k,l] = 2
 
     for n in range(nstep):
         # should do 2500 attempted flips to progress to the next sweep.

@@ -45,7 +45,7 @@ def rules(spin, lx, ly, p1, p2, p3):
                 r = random.random()
                 if p3 <= r:
                     spin[itrial,jtrial] = -1
-            return spin
+    return spin
 
 
 
