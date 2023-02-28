@@ -3,9 +3,8 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-# REDOOO
 def nearest_neighbours(i,j, spin, lx):
-    # wrote this to check if when person is Susceptible f there is an in
+    # wrote this to check if when person is Susceptible if there is an Infected
     neighbour_matrix = np.zeros(4)
 
     neighbour_matrix[0] = int(spin[np.mod(i-1,lx),j])
@@ -15,9 +14,10 @@ def nearest_neighbours(i,j, spin, lx):
 
 
     for papa in neighbour_matrix:
-        if int(papa) == 0:
+        if papa == 0:
             return True
-        else: return False
+        else:
+            return False
 
 
 def rules(spin, lx, ly, p1, p2, p3):
@@ -30,7 +30,7 @@ def rules(spin, lx, ly, p1, p2, p3):
 
             if trial_spin == -1:
                 # If the statement is true it goes forward with it
-                if nearest_neighbours(itrial, jtrial, spin, lx): 
+                if nearest_neighbours(itrial, jtrial, spin, lx) == True: 
                     
                     r = random.random()
                     if p1 <= r:
@@ -67,8 +67,8 @@ def main():
     for i in range(lx):
         for j in range(ly):
             r = random.random()
-            if r >= 2/3: spin[i,j] = 1
-            elif r < 1/3: spin[i,j] = -1
+            if r >= 2/3: spin[i,j] = int(1)
+            elif r < 1/3: spin[i,j] = int(-1)
 
     fig = plt.figure()
     im=plt.imshow(spin, animated=True)
@@ -76,9 +76,6 @@ def main():
 
     for n in range(nstep):
         # should do 2500 attempted flips to progress to the next sweep.
-        dummy = spin.flatten()
-        
-
         spin = rules(spin, lx, ly, p1, p2, p3)
 
 
@@ -86,6 +83,7 @@ def main():
 
         if n%10 == 0:
             if n >= 100:
+                dummy = spin.flatten()
                 avg_infected[int(n/10 - 10)] = dummy[dummy == 0].shape[0]
 
             plt.cla()
