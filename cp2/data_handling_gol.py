@@ -42,4 +42,6 @@ y_pos = glider_pos[:,1]
 
 
 plt.scatter(t, x_pos)
+plt.xlabel('Time (frames)')
+plt.ylabel('X Position of CoM')
 plt.show()

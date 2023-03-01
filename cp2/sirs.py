@@ -3,22 +3,6 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-def nearest_neighbours(i,j, spin, lx):
-    # wrote this to check if when person is Susceptible if there is an Infected
-    neighbour_matrix = np.zeros(4)
-
-    neighbour_matrix[0] = int(spin[np.mod(i-1,lx),j])
-    neighbour_matrix[1] = int(spin[np.mod(i+1,lx),j])
-    neighbour_matrix[2] = int(spin[i,np.mod(j-1,lx)])
-    neighbour_matrix[3] = int(spin[i,np.mod(j+1,lx)])
-
-
-    for papa in neighbour_matrix:
-        if papa == 0:
-            return True
-        else:
-            return False
-
 
 def rules(spin, lx, ly, p1, p2, p3):
     for i in range(lx):
@@ -26,24 +10,24 @@ def rules(spin, lx, ly, p1, p2, p3):
             itrial=np.random.randint(0,lx)
             jtrial=np.random.randint(0,ly)
 
-            trial_spin = -spin[itrial, jtrial]
+            trial_spin = spin[itrial, jtrial]
 
             if trial_spin == -1:
                 # If the statement is true it goes forward with it
-                if nearest_neighbours(itrial, jtrial, spin, lx) == True: 
-                    
+                if spin[np.mod(itrial-1,lx),jtrial] == 0 or spin[np.mod(itrial+1,lx),jtrial] == 0 or spin[itrial,np.mod(jtrial-1,lx)]==0 or spin[itrial,np.mod(jtrial+1,lx)] == 0: 
+
                     r = random.random()
-                    if p1 <= r:
+                    if p1 >= r:
                         spin[itrial,jtrial] = 0
             elif trial_spin == 0:
                 
                 r = random.random()
-                if p2 <= r:
+                if p2 >= r:
                     spin[itrial,jtrial] = 1
             else:
                 
                 r = random.random()
-                if p3 <= r:
+                if p3 >= r:
                     spin[itrial,jtrial] = -1
     return spin
 
@@ -92,7 +76,13 @@ def main():
             plt.pause(0.0001)
             # print(f"{n}, {spin.flatten()[spin.flatten() == 0].shape[0]}")
     # print(type(avg_infected))
-    np.save(f"output_sirs/infected_{p1}_{p3}", avg_infected)
+        if n > 200:
+                conv_test = np.std(avg_infected[int(n/10 - 10)-10:int(n/10 - 10)])
+                if conv_test < 1.0:
+                    print(f"Finished early : {n}")
+                    avg_infected = avg_infected[avg_infected > 0]
+                    break
+    np.save(f"output-sirs/infected-{p1}-{p3}", avg_infected)
     # np.save(f"spin_data/eq_spin_{lx}_{kT}_{sys.argv[3]}", super_spin[-1,:,:])
 
 main()
