@@ -28,20 +28,20 @@ def rules(spin, lx, ly, p1, p2, p3):
             trial_spin = spin[itrial, jtrial]
             if trial_spin == -1:
                 # If the statement is true it goes forward with it
-                if nearest_neighbours(itrial, jtrial, spin, lx): 
+                if spin[np.mod(itrial-1,lx),jtrial] == 0 or spin[np.mod(itrial+1,lx),jtrial] == 0 or spin[itrial,np.mod(jtrial-1,lx)]==0 or spin[itrial,np.mod(jtrial+1,lx)] == 0: 
                     
                     r = random.random()
-                    if p1 <= r:
+                    if p1 >= r:
                         spin[itrial,jtrial] = 0
             elif trial_spin == 0:
                 
                 r = random.random()
-                if p2 <= r:
+                if p2 >= r:
                     spin[itrial,jtrial] = 1
             elif trial_spin == 1:
                 
                 r = random.random()
-                if p3 <= r:
+                if p3 >= r:
                     spin[itrial,jtrial] = -1
             else: continue
     return spin

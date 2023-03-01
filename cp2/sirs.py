@@ -35,7 +35,7 @@ def rules(spin, lx, ly, p1, p2, p3):
 
 
 def main():
-    nstep = 10100
+    nstep = 1000
 
     lx = int(sys.argv[1])
     ly = lx
@@ -62,13 +62,15 @@ def main():
         # should do 2500 attempted flips to progress to the next sweep.
         spin = rules(spin, lx, ly, p1, p2, p3)
 
-
-
-
         if n%10 == 0:
             if n >= 100:
                 dummy = spin.flatten()
                 avg_infected[int(n/10 - 10)] = dummy[dummy == 0].shape[0]
+                conv_test = avg_infected[int(n/10 - 10)]
+                if conv_test == 0:
+                    print(f"Finished early : {n}")
+                    avg_infected = avg_infected[avg_infected > 0]
+                    break
 
             plt.cla()
             im=plt.imshow(spin, animated=True)
@@ -76,13 +78,8 @@ def main():
             plt.pause(0.0001)
             # print(f"{n}, {spin.flatten()[spin.flatten() == 0].shape[0]}")
     # print(type(avg_infected))
-        if n > 200:
-                conv_test = np.std(avg_infected[int(n/10 - 10)-10:int(n/10 - 10)])
-                if conv_test < 1.0:
-                    print(f"Finished early : {n}")
-                    avg_infected = avg_infected[avg_infected > 0]
-                    break
     np.save(f"output-sirs/infected-{p1}-{p3}", avg_infected)
+    print('Went all the way')
     # np.save(f"spin_data/eq_spin_{lx}_{kT}_{sys.argv[3]}", super_spin[-1,:,:])
 
 main()
