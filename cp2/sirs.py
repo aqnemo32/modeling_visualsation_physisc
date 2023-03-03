@@ -69,7 +69,6 @@ def main():
                 conv_test = avg_infected[int(n/10 - 10)]
                 if conv_test == 0:
                     print(f"Finished early : {n}")
-                    avg_infected = avg_infected[avg_infected > 0]
                     break
 
             plt.cla()
@@ -79,7 +78,6 @@ def main():
             # print(f"{n}, {spin.flatten()[spin.flatten() == 0].shape[0]}")
     # print(type(avg_infected))
     np.save(f"output-sirs/infected-{p1}-{p3}", avg_infected)
-    print('Went all the way')
     # np.save(f"spin_data/eq_spin_{lx}_{kT}_{sys.argv[3]}", super_spin[-1,:,:])
 
 main()

@@ -34,7 +34,7 @@ def rules(spin, lx, ly, p1, p2, p3):
 
 
 def main():
-    nstep = 1000
+    nstep = 10100
 
     lx = int(sys.argv[1])
     ly = lx
@@ -77,8 +77,12 @@ def main():
 
 
         if n%10 == 0:
-            if n >= 100:
+            if n >= 9:
                 avg_infected[int(n/10 - 10)] = dummy[dummy == 0].shape[0]
+                conv_test = avg_infected[int(n/10 - 10)]
+                if conv_test == 0:
+                    print(f"Finished early : {n}")
+                    break
 
             plt.cla()
             im=plt.imshow(spin, animated=True)
