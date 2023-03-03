@@ -68,7 +68,7 @@ def main():
         im=plt.imshow(spin, animated=True)
         plt.draw()
         plt.pause(0.0001)
-        if n > 200:
+        if n > 20:
             conv_test = np.std(activesites[n-20:n])
             if conv_test < 1.0:
                 print(f"Finished early : {n}")
