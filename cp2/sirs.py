@@ -1,8 +1,8 @@
 import sys
 import random
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+# import matplotlib.pyplot as plt
+# import matplotlib.animation as animation
 
 def rules(spin, lx, ly, p1, p2, p3):
     for i in range(lx):
@@ -35,7 +35,7 @@ def rules(spin, lx, ly, p1, p2, p3):
 
 
 def main():
-    nstep = 1000
+    nstep = 10100
 
     lx = int(sys.argv[1])
     ly = lx
@@ -54,8 +54,8 @@ def main():
             if r >= 2/3: spin[i,j] = int(1)
             elif r < 1/3: spin[i,j] = int(-1)
 
-    fig = plt.figure()
-    im=plt.imshow(spin, animated=True)
+    # fig = plt.figure()
+    # im=plt.imshow(spin, animated=True)
     avg_infected = np.zeros(int((nstep-100)/10))
 
     for n in range(nstep):
@@ -63,7 +63,8 @@ def main():
         spin = rules(spin, lx, ly, p1, p2, p3)
 
         if n%10 == 0:
-            if n >= 100:
+            if n >= 9:
+                print(n)
                 dummy = spin.flatten()
                 avg_infected[int(n/10 - 10)] = dummy[dummy == 0].shape[0]
                 conv_test = avg_infected[int(n/10 - 10)]
@@ -71,13 +72,13 @@ def main():
                     print(f"Finished early : {n}")
                     break
 
-            plt.cla()
-            im=plt.imshow(spin, animated=True)
-            plt.draw()
-            plt.pause(0.0001)
+            # plt.cla()
+            # im=plt.imshow(spin, animated=True)
+            # plt.draw()
+            # plt.pause(0.0001)
             # print(f"{n}, {spin.flatten()[spin.flatten() == 0].shape[0]}")
     # print(type(avg_infected))
-    np.save(f"output-sirs/infected-{p1}-{p3}", avg_infected)
+    np.save(f"output-sirs-long/infected-{p1}", avg_infected)
     # np.save(f"spin_data/eq_spin_{lx}_{kT}_{sys.argv[3]}", super_spin[-1,:,:])
 
 main()
