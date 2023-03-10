@@ -10,7 +10,7 @@ import matplotlib.animation as animation
 '''
 I think the problem is that i update as i go, i must look at the whole thing and update it after I checked every point --> Fixed it pretty sure
 '''
-def rules(spin):
+def rules(spin, lx):
     n = np.zeros((lx,lx))
     for i in range(lx):
         for j in range(lx):
@@ -43,7 +43,8 @@ def rules(spin):
 def main():
     nstep = 5000
 
-    lx=int(sys.argv(0) )
+    lx=int(sys.argv[1])
+    print(lx)
     ly=lx 
 
     activesites = np.zeros(nstep)
@@ -62,7 +63,7 @@ def main():
     im=plt.imshow(spin, animated=True)
 
     for n in range(nstep):
-        spin = rules(spin)
+        spin = rules(spin, lx)
         activesites[n] = np.sum(spin, axis = (0,1))
         plt.cla()
         im=plt.imshow(spin, animated=True)

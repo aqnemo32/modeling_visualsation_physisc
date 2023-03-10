@@ -72,15 +72,19 @@ def main():
 
     i = 8
     j = 6
-    spin[i-1:i+2, j-1:j+2] = np.array(([0,0,1], [1,0,1], [0,1,1]), dtype = int)# or np.array(([1,0,0], [0,1,1], [1,1,0]), dtype = int)
+    spin[6,7] = 1
+    spin[7,7] = 1
+    spin[8,7] = 1
+# For glider uncomment the following line
+    #spin[i-1:i+2, j-1:j+2] or np.array(([1,0,0], [0,1,1], [1,1,0]), dtype = int)
     print(np.sum(spin, axis = (0,1)))
     # i = random.randint(0, 50)
     # j = random.randint(0, 50)
     # print(np.array(([0,1,0], [0,1,0], [0,1,0]), dtype = int).shape)
     # spin[np.mod(i-1,50):np.mod(i+2,50), np.mod(j-1,50):np.mod(j+2,50)] = np.array(([0,1,0], [0,1,0], [0,1,0]), dtype = int)
 
-    # fig = plt.figure()
-    # im=plt.imshow(spin, animated=True)
+    fig = plt.figure()
+    im=plt.imshow(spin, animated=True)
 
     for n in range(nstep):
         sum_n = nearest_neighbour(spin, lx)
@@ -89,10 +93,10 @@ def main():
         spin = rules(spin,sum_n)
 
     #       show animation
-        # plt.cla()
-        # im=plt.imshow(spin, animated=True)
-        # plt.draw()
-        # plt.pause(0.0001)
+        plt.cla()
+        im=plt.imshow(spin, animated=True)
+        plt.draw()
+        plt.pause(0.0001)
     np.save('glider_com_pos.npy', glider_pos[glider_pos[:,0] > 0])
 main()
 # Set 0 to dead and 1 to alive, as int, to reduce the number of necessary bits
